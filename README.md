@@ -69,7 +69,7 @@ Thanks to their creators! :)
     ```
     
     A step named `Patch for linux build` was added to the linux-related jobs/workflows which resolves this issue by installing the required dependencies.
-- The build commands are run in verbose mode (`-v`) to provide more information about the build process. Provide these logs when you are willing to report an issue on the [Flet repo](https://github.com/flet-dev/flet).
+- The build commands are run in verbose mode (`--verbose`) to provide more information about the build process. Provide these logs when you are willing to report an issue on the [Flet repo](https://github.com/flet-dev/flet).
 
 ## Contribution
 
@@ -77,7 +77,7 @@ You can contribute by adding more workflows or improving the existing ones.
 
 **Improvements ideas:**
 - Add a step for releasing the built artifacts to the GitHub releases
-- At the moment, `apk-builds.yml`, for example, runs on `macos-latest`. Is it better (in terms of size/speed) to run it on `ubuntu-latest` and `windows-latest`?
+- At the moment, `apk-build.yml`, for example, runs on `macos-latest`. Is it better (in terms of size/speed) to run it on `ubuntu-latest` or `windows-latest`?
 - It will be nice if we could take advantage of caching to speed up the builds.
 - Use environment variables to define the version of python and flutter to be used.
 
