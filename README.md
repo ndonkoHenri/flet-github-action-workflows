@@ -79,6 +79,5 @@ You can contribute by adding more workflows or improving the existing ones.
 - Add a step for releasing the built artifacts to the GitHub releases
 - At the moment, `apk-build.yml`, for example, runs on `macos-latest`. Is it better (in terms of size/speed) to run it on `ubuntu-latest` or `windows-latest`?
 - It will be nice if we could take advantage of caching to speed up the builds.
-- Use environment variables to define the version of python and flutter to be used.
 
 
