@@ -2,6 +2,8 @@
 
 A collection of useful GitHub Action Workflows to ease the building of [Flet](https://flet.dev) applications.
 
+**VIDEO TUTORIAL:** https://youtu.be/ObO-D2TD_wo
+
 Feel free to adapt all the workflows in this repo to your own projects: [flet.dev/publish](https://flet.dev/publish)
 
 ## File Structure
