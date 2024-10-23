@@ -59,3 +59,31 @@ jobs:
         overwrite: false
 
 
+    - name: Compress folder
+      shell: powershell
+      run: |
+        Compress-Archive -Path build/windows -DestinationPath build/Windows.zip
+
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        tag_name: v${{ env.BUILD_VERSION }}
+        release_name: "v${{ env.BUILD_VERSION }}"
+        body: |
+          ## 🚀 Update ${{ env.BUILD_VERSION }}
+
+        draft: false
+        prerelease: false
+
+    - name: Upload Build to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: build/Windows.zip  # Path to the zipped file
+        asset_name: Windows.zip
+        asset_content_type: application/zip
