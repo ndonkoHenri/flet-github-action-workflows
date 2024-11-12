@@ -53,8 +53,63 @@ jobs:
     - name: Upload IPA Artifact
       uses: actions/upload-artifact@v4.3.4  # https://github.com/marketplace/actions/upload-a-build-artifact
       with:
-        name: ipa-build-artifact  # the name of the artifact
+        name: ipa-flet  # the name of the artifact
         path: build/ipa  # location of Flet build output
         if-no-files-found: error  # Fail the action with an error message if no files are found
         overwrite: false  # If true, an artifact with a matching name will be deleted before a new one is uploaded. If false, the action will fail if an artifact for the given name already exists. Does not fail if the artifact does not exist.
 
+  create-release:
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} #GitHub Token
+        with:
+          tag_name: v${{ env.BUILD_VERSION }}
+          release_name: Release v${{ env.BUILD_VERSION }}
+          draft: false
+          prerelease: false
+
+      - name: Zip Artifacts
+        run: |
+          cd artifacts
+          echo "Initial directory structure:"
+          ls -la
+          echo "\nShowing ipa-flet contents:"
+          ls -la ipa-flet/
+          echo "\nShowing complete path structure:"
+          find ipa-flet -type d
+          mv ipa-flet/Runner.xcarchive/Products/Applications ipa-flet/Payload
+          echo "\nDirectory structure after mv:"
+          ls -la ipa-flet/
+          cd ipa-flet
+          zip -r ../ipa-flet.ipa Payload
+          cd ..
+
+      - name: List Workspace After Zipping
+        run: |
+          echo "Artifacts Directory After Zipping:"
+          ls -la artifacts/
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ls -la artifacts/
+            artifacts/ipa-flet.ipa
+          tag_name: v${{ env.BUILD_VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} #GitHub Token
