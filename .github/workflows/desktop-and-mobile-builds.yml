@@ -60,7 +60,7 @@ jobs:
     - name: Upload Linux Artifact
       uses: actions/upload-artifact@v4.3.4
       with:
-        name: linux-build-artifact
+        name: linux-flet
         path: build/linux
         if-no-files-found: warn
         overwrite: false
@@ -95,7 +95,7 @@ jobs:
     - name: Upload macOS Artifact
       uses: actions/upload-artifact@v4.3.4
       with:
-        name: macos-build-artifact
+        name: macos-flet
         path: build/macos
         if-no-files-found: warn
         overwrite: false
@@ -130,7 +130,7 @@ jobs:
     - name: Upload Windows Artifact
       uses: actions/upload-artifact@v4.3.4
       with:
-        name: windows-build-artifact
+        name: windows-flet
         path: build/windows
         if-no-files-found: warn
         overwrite: false
@@ -165,7 +165,7 @@ jobs:
     - name: Upload AAB Artifact
       uses: actions/upload-artifact@v4.3.4
       with:
-        name: aab-build-artifact
+        name: aab-flet
         path: build/aab
         if-no-files-found: warn
         overwrite: false
@@ -206,7 +206,7 @@ jobs:
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4.3.4
       with:
-        name: apk-build-artifact
+        name: apk-flet
         path: build/apk
         if-no-files-found: warn
         overwrite: false
@@ -241,7 +241,74 @@ jobs:
     - name: Upload IPA Artifact
       uses: actions/upload-artifact@v4.3.4
       with:
-        name: ipa-build-artifact
+        name: ipa-flet
         path: build/ipa
         if-no-files-found: warn
         overwrite: false
+
+
+  create-release:
+    needs: [build-linux, build-macos, build-windows, build-aab, build-apk, build-ipa]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} #GitHub Token
+        with:
+          tag_name: v${{ env.BUILD_VERSION }}
+          release_name: Release v${{ env.BUILD_VERSION }}
+          draft: false
+          prerelease: false
+
+      - name: Zip Artifacts
+        run: |
+          cd artifacts
+          echo "Initial directory structure:"
+          ls -la
+          echo "\nShowing ipa-flet contents:"
+          ls -la ipa-flet/
+          echo "\nShowing complete path structure:"
+          find ipa-flet -type d
+          mv ipa-flet/Runner.xcarchive/Products/Applications ipa-flet/Payload
+          echo "\nDirectory structure after mv:"
+          ls -la ipa-flet/
+          cd ipa-flet
+          zip -r ../ipa-flet.ipa Payload
+          cd ..
+          zip -r linux-flet.zip linux-flet/
+          zip -r macos-flet.zip macos-flet/
+          zip -r windows-flet.zip windows-flet/
+          zip -r aab-flet.zip aab-flet/
+
+
+      - name: List Workspace After Zipping
+        run: |
+          echo "Artifacts Directory After Zipping:"
+          ls -la artifacts/
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ls -la artifacts/
+            artifacts/apk-flet/app-release.apk
+            artifacts/ipa-flet.ipa
+            artifacts/windows-flet.zip
+            artifacts/linux-flet.zip
+            artifacts/macos-flet.zip
+            artifacts/aab-flet.zip
+          tag_name: v${{ env.BUILD_VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} #GitHub Token
