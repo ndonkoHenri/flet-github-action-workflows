@@ -1,4 +1,4 @@
-name: All Builds (Linux, macOS, Windows, AAB, APK, IPA)
+name: Mobile Builds (AAB, APK, IPA)
 
 on:
   # Runs on push to any of the below branches
@@ -24,130 +24,20 @@ env:
 
   # Flutter version to use
   FLUTTER_VERSION: 3.27.4
-  
+
   # flet-cli version to install for `flet build`
   FLET_CLI_VERSION: 0.27.5
-  
+
   # Ensures Python uses UTF-8 encoding by default
   PYTHONUTF8: 1
-  
+
   # Disables rich text formatting in Flet CLI output
   FLET_CLI_NO_RICH_OUTPUT: 1
-  
+
   # Disables progress bars when using UV
   UV_NO_PROGRESS: 1
 
 jobs:
-  build-linux:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Python ${{ env.PYTHON_VERSION }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-
-    - name: Install flet-cli ${{ env.FLET_CLI_VERSION }}
-      run: |
-        python -m pip install --upgrade pip
-        pip install flet-cli==$FLET_CLI_VERSION
-
-    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-
-    - name: Patch for linux build
-      run: |
-        sudo apt-get update -y
-        sudo apt-get install -y ninja-build libgtk-3-dev
-
-    - name: Flet Build Linux
-      run: |
-        flutter config --no-analytics 
-        flet build linux --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION
-
-    - name: Upload Linux Artifact
-      uses: actions/upload-artifact@v4.3.4
-      with:
-        name: linux-build-artifact
-        path: build/linux
-        if-no-files-found: warn
-        overwrite: false
-
-  build-macos:
-    runs-on: macos-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Python ${{ env.PYTHON_VERSION }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-
-    - name: Install flet-cli ${{ env.FLET_CLI_VERSION }}
-      run: |
-        python -m pip install --upgrade pip
-        pip install flet-cli==$FLET_CLI_VERSION
-
-    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-
-    - name: Flet Build macOS
-      run: |
-        flutter config --no-analytics
-        flet build macos --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION
-
-    - name: Upload macOS Artifact
-      uses: actions/upload-artifact@v4.3.4
-      with:
-        name: macos-build-artifact
-        path: build/macos
-        if-no-files-found: warn
-        overwrite: false
-
-  build-windows:
-    runs-on: windows-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Python ${{ env.PYTHON_VERSION }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-
-    - name: Install flet-cli ${{ env.FLET_CLI_VERSION }}
-      run: |
-        python -m pip install --upgrade pip
-        pip install flet-cli==$env:FLET_CLI_VERSION
-
-    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-
-    - name: Flet Build Windows
-      run: |
-        flutter config --no-analytics
-        flet build windows --verbose --no-rich-output --build-number=$env:BUILD_NUMBER --build-version=$env:BUILD_VERSION
-
-    - name: Upload Windows Artifact
-      uses: actions/upload-artifact@v4.3.4
-      with:
-        name: windows-build-artifact
-        path: build/windows
-        if-no-files-found: warn
-        overwrite: false
-
   build-aab:
     runs-on: ubuntu-latest
 

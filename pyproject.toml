@@ -11,6 +11,8 @@ dependencies = [
   "flet==0.27.5",
 ]
 
+# Docs: https://flet.dev/docs/publish
+
 [tool.flet]
 company = "EthicalCompany"
 
