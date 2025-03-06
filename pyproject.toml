@@ -1,0 +1,21 @@
+[project]
+name = "example-app"
+version = "0.1.0"
+description = "A Flet example application."
+requires-python = ">=3.9"
+authors = [
+    { name = "TheEthicalBoy", email = "the.ethical@boy.com" }
+]
+
+dependencies = [
+  "flet==0.27.5",
+]
+
+[tool.flet]
+company = "EthicalCompany"
+
+[tool.poetry]
+package-mode = false
+
+[tool.flet.app]
+path = "src"
