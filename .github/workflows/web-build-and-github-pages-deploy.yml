@@ -59,7 +59,7 @@ jobs:
     - name: Install flet-cli ${{ env.FLET_CLI_VERSION }}
       run: |
         python -m pip install --upgrade pip
-        pip install flet-cli==$env:FLET_CLI_VERSION
+        pip install flet-cli==$FLET_CLI_VERSION
   
     - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
       uses: subosito/flutter-action@v2

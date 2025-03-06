@@ -1,4 +1,4 @@
-name: All Builds (Linux, macOS, Windows, AAB, APK, IPA)
+name: Desktop and Mobile Builds (Linux, macOS, Windows, AAB, APK, IPA)
 
 on:
   # Runs on push to any of the below branches
