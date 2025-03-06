@@ -21,11 +21,16 @@ env:
   BUILD_VERSION: 1.0.0
   PYTHON_VERSION: 3.12.8
   FLUTTER_VERSION: 3.27.4
+  
+  # flet-cli version to install for `flet build`
   FLET_CLI_VERSION: 0.27.5
+  
   # Ensures Python uses UTF-8 encoding by default
   PYTHONUTF8: 1
+  
   # Disables rich text formatting in Flet CLI output
   FLET_CLI_NO_RICH_OUTPUT: 1
+  
   # Disables progress bars when using UV
   UV_NO_PROGRESS: 1
 
