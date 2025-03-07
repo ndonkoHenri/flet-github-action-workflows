@@ -22,9 +22,6 @@ env:
   # Python version to use
   PYTHON_VERSION: 3.12.8
 
-  # Flutter version to use
-  FLUTTER_VERSION: 3.27.4
-
   # flet-cli version to install for `flet build`
   FLET_CLI_VERSION: 0.27.5
 
@@ -55,14 +52,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install flet-cli==$FLET_CLI_VERSION
 
-    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-
     - name: Flet Build APK
       run: |
-        flutter config --no-analytics
         flet build apk --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION
 
     - name: Upload APK Artifact

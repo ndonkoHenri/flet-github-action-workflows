@@ -43,7 +43,6 @@ The following actions from the [GitHub marketplace](https://github.com/marketpla
 - [actions/setup-python](https://github.com/marketplace/actions/setup-python): sets up a Python environment
 - [actions/setup-java](https://github.com/marketplace/actions/setup-java-jdk): sets up Java JDK
 - [actions/upload-artifact](https://github.com/marketplace/actions/upload-a-build-artifact): uploads a build artifact for a workflow run
-- [subosito/flutter-action](https://github.com/marketplace/actions/flutter-action): sets up a Flutter environment
 
 See their respective documentation for more information on how to further customize their execution.
 
@@ -69,12 +68,10 @@ See the [Actions tab](https://github.com/ndonkoHenri/flet-github-action-workflow
 - Customize the build command for your specific needs. Docs: [flet.dev/publish](https://flet.dev/publish)
 - `BUILD_NUMBER` and `BUILD_VERSION` are used for [versioning](https://flet.dev/docs/publish#versioning). If you instead prefer defining them in your `pyproject.toml`, feel free to remove them from the workflow.
 - Only `flet-cli` needs to be installed when building a Flet app. The version to be installed is specified by the `FLET_CLI_VERSION` environment variable.
-- All workflows are based on the `FLUTTER_VERSION` and `PYTHON_VERSION` environment variables.
 - `PYTHONUTF8` is set to `1`, ensuring that the build outputs are decoded in UTF-8. (useful on Windows)
 - `FLET_CLI_NO_RICH_OUTPUT` and `UV_NO_PROGRESS` (effective only when using uv) are set to `1` to reduce rich & live output from the build output.
 - You might find the below in some of the workflows:
   - `workflow_dispatch`: used to trigger the workflow manually from the Actions tab
-  - `flutter config --no-analytics`: disables Flutter analytics
 - The below error occured on Linux when `flutter doctor` was run:
     ```
     [✗] Linux toolchain - develop for Linux desktop
