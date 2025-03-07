@@ -22,9 +22,6 @@ env:
   # Python version to use
   PYTHON_VERSION: 3.12.8
 
-  # Flutter version to use
-  FLUTTER_VERSION: 3.27.4
-  
   # flet-cli version to install for `flet build`
   FLET_CLI_VERSION: 0.27.5
   
@@ -55,11 +52,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install flet-cli==$FLET_CLI_VERSION
 
-    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-
     - name: Patch for linux build
       run: |
         sudo apt-get update -y
@@ -67,7 +59,6 @@ jobs:
 
     - name: Flet Build Linux
       run: |
-        flutter config --no-analytics 
         flet build linux --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION
 
     - name: Upload Linux Artifact
@@ -95,14 +86,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install flet-cli==$FLET_CLI_VERSION
 
-    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-
     - name: Flet Build macOS
       run: |
-        flutter config --no-analytics
         flet build macos --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION
 
     - name: Upload macOS Artifact
@@ -130,14 +115,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install flet-cli==$env:FLET_CLI_VERSION
 
-    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-
     - name: Flet Build Windows
       run: |
-        flutter config --no-analytics
         flet build windows --verbose --no-rich-output --build-number=$env:BUILD_NUMBER --build-version=$env:BUILD_VERSION
 
     - name: Upload Windows Artifact
@@ -165,14 +144,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install flet-cli==$FLET_CLI_VERSION
 
-    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-
     - name: Flet Build AAB
       run: |
-        flutter config --no-analytics
         flet build aab --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION
 
     - name: Upload AAB Artifact
@@ -200,14 +173,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install flet-cli==$FLET_CLI_VERSION
 
-    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-
     - name: Flet Build APK
       run: |
-        flutter config --no-analytics
         flet build apk --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION
 
     - name: Upload APK Artifact
@@ -235,14 +202,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install flet-cli==$FLET_CLI_VERSION
 
-    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-
     - name: Flet Build IPA
       run: |
-        flutter config --no-analytics
         flet build ipa --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION 
 
     - name: Upload IPA Artifact
