@@ -8,14 +8,12 @@ Feel free to reuse them and customize to your specific usecases and needs.
 
 ## What is in this repo
 
-## What is in this repo
-
-| File                                                                                                                 | Purpose                                                                                                                                                                                                                   |
-|----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [`.github/workflows/all-builds.yml`](.github/workflows/all-builds.yml)                                               | Builds for Linux, macOS, Windows, AAB, APK, IPA, and Web.<br>More details [here](https://docs.flet.dev/publish/#github-actions).                                                                                          |
-| [`.github/workflows/web-build-and-github-pages-deploy.yml`](.github/workflows/web-build-and-github-pages-deploy.yml) | Builds the web app and deploys it to GitHub Pages.<br><br>Uses:<br>• `--base-url ${GITHUB_REPOSITORY#*/}` (repository name as base URL)<br>• `--route-url-strategy hash` (recommended for static hosts like GitHub Pages) |
-| [`pyproject.toml`](pyproject.toml)                                                                                   | Example Flet project configuration                                                                                                                                                                                        |
-| [`src/main.py`](src/main.py)                                                                                         | Example Flet app to test the workflows                                                                                                                                                                                    |
+| File                                                                                                                 | Purpose                                                                                                                                                                                                               |
+|----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`.github/workflows/all-builds.yml`](.github/workflows/all-builds.yml)                                               | Builds for Linux, macOS, Windows, AAB, APK, IPA, and Web.<br>More details [here](https://docs.flet.dev/publish/#github-actions).                                                                                      |
+| [`.github/workflows/web-build-and-github-pages-deploy.yml`](.github/workflows/web-build-and-github-pages-deploy.yml) | Builds the web app and deploys it to GitHub Pages.<br>Uses:<br>• `--base-url ${GITHUB_REPOSITORY#*/}` - repository name as base URL<br>• `--route-url-strategy hash` - recommended for static hosts like GitHub Pages |
+| [`pyproject.toml`](pyproject.toml)                                                                                   | Example Flet project configuration                                                                                                                                                                                    |
+| [`src/main.py`](src/main.py)                                                                                         | Example Flet app to test the workflows                                                                                                                                                                                |
 
 
 **Quick start:**
@@ -31,13 +29,12 @@ Feel free to reuse them and customize to your specific usecases and needs.
   - `UV_PYTHON` - the Python version to use
   - [`FLET_CLI_NO_RICH_OUTPUT`](https://docs.flet.dev/reference/environment-variables/#flet_cli_skip_flutter_doctor) - disables console rich output
   - [`PYTHONUTF8`](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUTF8) - enables UTF-8 encoding for Python. Useful in Windows builds.
-- Build commands: customize `flet build ...` flags to match your app requirements.
+- Build commands: customize `flet build ...` flags to match your app requirements. Or define them in the [`pyproject.toml`](https://docs.flet.dev/publish).
 
 ## Notes
 
 - The workflows run with `--verbose` to make `flet build` troubleshooting easier.
 - Linux desktop builds need extra system packages, already handled in `all-builds.yml`.
-- You can define app metadata (like `BUILD_NUMBER` and `BUILD_VERSION`) in the `pyproject.toml` if preferred. ([docs](https://docs.flet.dev/publish/#versioning))
 
 ## Resources
 
