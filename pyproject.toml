@@ -8,12 +8,12 @@ authors = [
     { name = "TheEthicalBoy", email = "me@ethicalboy.com" }
 ]
 dependencies = [
-    "flet==0.80.5"
+    "flet==0.80.6.dev7577"
 ]
 
 [dependency-groups]
 dev = [
-    "flet[all]==0.80.5",
+    "flet[all]==0.80.6.dev7577",
 ]
 
 # Docs: https://docs.flet.dev/publish
@@ -24,6 +24,3 @@ product = "Flet GHA Example"
 
 [tool.flet.app]
 path = "src"
-
-[tool.flet.template]
-ref = "0.80.6"

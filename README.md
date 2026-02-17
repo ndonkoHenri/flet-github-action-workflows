@@ -8,35 +8,19 @@ Feel free to reuse them and customize to your specific usecases and needs.
 
 ## What is in this repo
 
-| File                                                                                                                 | Purpose                                                                  |
-|----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| [`.github/workflows/all-builds.yml`](.github/workflows/all-builds.yml)                                               | Builds for Linux, macOS, Windows, AAB, APK, IPA, and Web in one workflow |
-| [`.github/workflows/web-build-and-github-pages-deploy.yml`](.github/workflows/web-build-and-github-pages-deploy.yml) | Builds for Web and deploys to GitHub Pages                               |
-| [`pyproject.toml`](pyproject.toml)                                                                                   | Example Flet project configuration                                       |
-| [`src/main.py`](src/main.py)                                                                                         | Example Flet app to test the workflows                                   |
+## What is in this repo
+
+| File                                                                                                                 | Purpose                                                                                                                                                                                                                   |
+|----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`.github/workflows/all-builds.yml`](.github/workflows/all-builds.yml)                                               | Builds for Linux, macOS, Windows, AAB, APK, IPA, and Web.<br>More details [here](https://docs.flet.dev/publish/#github-actions).                                                                                          |
+| [`.github/workflows/web-build-and-github-pages-deploy.yml`](.github/workflows/web-build-and-github-pages-deploy.yml) | Builds the web app and deploys it to GitHub Pages.<br><br>Uses:<br>• `--base-url ${GITHUB_REPOSITORY#*/}` (repository name as base URL)<br>• `--route-url-strategy hash` (recommended for static hosts like GitHub Pages) |
+| [`pyproject.toml`](pyproject.toml)                                                                                   | Example Flet project configuration                                                                                                                                                                                        |
+| [`src/main.py`](src/main.py)                                                                                         | Example Flet app to test the workflows                                                                                                                                                                                    |
+
 
 **Quick start:**
 1. Copy the workflow(s) you need into your own repository under `.github/workflows/`.
 2. Push to GitHub or run manually from the Actions tab of your repository.
-
-## Workflow details
-
-### `all-builds.yml`
-
-- Uses `uv` for Python and command execution.
-- Uses a matrix strategy to build: `linux`, `macos`, `windows`, `aab`, `apk`, `ipa`, `web`.
-- Uploads one artifact per target with the pattern `<target>-build-artifact`.
-- Includes a Linux dependency installation step only when needed for Linux desktop builds.
-- Supports manual runs via `workflow_dispatch`.
-
-### `web-build-and-github-pages-deploy.yml`
-
-- Builds the web app with:
-  - `--base-url ${GITHUB_REPOSITORY#*/}` (repository name as base URL)
-  - `--route-url-strategy hash` (good for static hosts like GitHub Pages)
-- Uploads `build/web` as a Pages artifact named `web-build-artifact` with `retention-days: 20`.
-- Deploys only on push to the `main` branch.
-- Supports manual runs via `workflow_dispatch`.
 
 ## Common customization points
 
