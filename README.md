@@ -15,17 +15,15 @@ Feel free to reuse them and customize to your specific usecases and needs.
 | [`pyproject.toml`](pyproject.toml)                                                                                   | Example Flet project configuration                                       |
 | [`src/main.py`](src/main.py)                                                                                         | Example Flet app to test the workflows                                   |
 
-## Quick start
-
+**Quick start:**
 1. Copy the workflow(s) you need into your own repository under `.github/workflows/`.
-2. Ensure your project has a valid `pyproject.toml` and Flet app source.
-3. Push to GitHub or run manually from the [Actions](/actions) tab.
+2. Push to GitHub or run manually from the Actions tab of your repository.
 
 ## Workflow details
 
 ### `all-builds.yml`
 
-- Uses `uv` as package manager/installer.
+- Uses `uv` for Python and command execution.
 - Uses a matrix strategy to build: `linux`, `macos`, `windows`, `aab`, `apk`, `ipa`, `web`.
 - Uploads one artifact per target with the pattern `<target>-build-artifact`.
 - Includes a Linux dependency installation step only when needed for Linux desktop builds.
@@ -34,9 +32,9 @@ Feel free to reuse them and customize to your specific usecases and needs.
 ### `web-build-and-github-pages-deploy.yml`
 
 - Builds the web app with:
-  - `--base-url ${GITHUB_REPOSITORY#*/}`: which sets the base URL to the repository name.
-  - `--route-url-strategy hash`: which uses the hash URL strategy; useful when deploying to static hosts without SPA support, like GitHub Pages.
-- Uploads the web output as a Pages artifact.
+  - `--base-url ${GITHUB_REPOSITORY#*/}` (repository name as base URL)
+  - `--route-url-strategy hash` (good for static hosts like GitHub Pages)
+- Uploads `build/web` as a Pages artifact named `web-build-artifact` with `retention-days: 20`.
 - Deploys only on push to the `main` branch.
 - Supports manual runs via `workflow_dispatch`.
 
@@ -44,20 +42,18 @@ Feel free to reuse them and customize to your specific usecases and needs.
 
 - Triggers: adjust `push`, `pull_request`, and `workflow_dispatch` for your flow.
 - Matrix targets: remove entries you do not need from `all-builds.yml`.
-- Versioning:
-  - `BUILD_NUMBER`
-  - `BUILD_VERSION`
+- Versioning: [`BUILD_NUMBER`](https://docs.flet.dev/publish/#build-number), [`BUILD_VERSION` ](https://docs.flet.dev/publish/#build-version).
 - Python/tooling:
-  - `UV_PYTHON`
-  - `FLET_CLI_NO_RICH_OUTPUT`
-  - `PYTHONUTF8`
+  - `UV_PYTHON` - the Python version to use
+  - [`FLET_CLI_NO_RICH_OUTPUT`](https://docs.flet.dev/reference/environment-variables/#flet_cli_skip_flutter_doctor) - disables console rich output
+  - [`PYTHONUTF8`](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUTF8) - enables UTF-8 encoding for Python. Useful in Windows builds.
 - Build commands: customize `flet build ...` flags to match your app requirements.
 
 ## Notes
 
-- The workflows run with `--verbose` to make troubleshooting easier.
+- The workflows run with `--verbose` to make `flet build` troubleshooting easier.
 - Linux desktop builds need extra system packages, already handled in `all-builds.yml`.
-- You can define app/version metadata in `pyproject.toml` if preferred. ([docs](https://docs.flet.dev/publish/#versioning))
+- You can define app metadata (like `BUILD_NUMBER` and `BUILD_VERSION`) in the `pyproject.toml` if preferred. ([docs](https://docs.flet.dev/publish/#versioning))
 
 ## Resources
 
@@ -67,6 +63,5 @@ Feel free to reuse them and customize to your specific usecases and needs.
 
 ## Contributing
 
-Contributions are welcome and appreciated! 😄 
-
-Please open an issue or PR if you have any feedback or suggestions.
+Contributions are welcome.
+Open an issue or PR with improvements, fixes, or suggestions.
